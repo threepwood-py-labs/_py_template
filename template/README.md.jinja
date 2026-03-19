@@ -106,6 +106,7 @@ from {{ package_name }} import __version__
 |   |-- policy/
 |   |   `-- check_standard.py
 |   `-- windows/
+|       |-- build_nuitka.py
 {% if project_kind == "qt_app" %}
 |       |-- run_app.py
 |       |-- run_app_gui.pyw
@@ -147,6 +148,7 @@ hatch run lint:fmt
 hatch run lint:types
 hatch run lint:policy
 hatch run lint:all
+hatch run package-standalone
 hatch build
 ```
 
