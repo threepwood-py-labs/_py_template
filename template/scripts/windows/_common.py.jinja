@@ -61,9 +61,8 @@ def _ensure_declared_dependencies(
         print("Install uv and retry.", file=sys.stderr)
         return 1
 
-    print(
-        f"Installing {description} dependencies into local environment with uv pip install"
-    )
+    print(f"Installing {description} dependencies into local environment")
+    print("with uv pip install")
     cmd = [
         uv_exe,
         "pip",

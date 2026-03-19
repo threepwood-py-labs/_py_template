@@ -29,7 +29,9 @@ def _expect_string(value: object, field_name: str) -> str:
     """Return one string field or raise a descriptive configuration error."""
 
     if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"tool.workspace.nuitka.{field_name} must be a non-empty string.")
+        raise ValueError(
+            f"tool.workspace.nuitka.{field_name} must be a non-empty string."
+        )
     return value
 
 
@@ -37,7 +39,9 @@ def _expect_string_list(value: object, field_name: str) -> tuple[str, ...]:
     """Return a tuple of strings or raise a descriptive configuration error."""
 
     if not isinstance(value, list):
-        raise ValueError(f"tool.workspace.nuitka.{field_name} must be a list of strings.")
+        raise ValueError(
+            f"tool.workspace.nuitka.{field_name} must be a list of strings."
+        )
 
     normalized_items: list[str] = []
     for item in value:
@@ -88,7 +92,9 @@ def load_nuitka_config(repo_root: Path) -> NuitkaConfig:
         ),
     )
     if config.mode not in {"standalone", "onefile"}:
-        raise ValueError("tool.workspace.nuitka.mode must be 'standalone' or 'onefile'.")
+        raise ValueError(
+            "tool.workspace.nuitka.mode must be 'standalone' or 'onefile'."
+        )
     if config.windows_console_mode not in {"force", "disable", "attach", "hide"}:
         raise ValueError(
             "tool.workspace.nuitka.windows_console_mode must be one of "
@@ -124,9 +130,18 @@ def build_command(
     """Construct the Nuitka command line and environment."""
 
     python_exe = get_python(repo_root)
+    package_root = repo_root / "src" / config.app_package
     build_root = repo_root / "build" / "nuitka"
     output_dir = build_root / config.mode
     report_path = build_root / "reports" / f"{config.output_name}-{config.mode}.xml"
+
+    if not package_root.is_dir():
+        raise ValueError(f"Configured app_package directory does not exist: {package_root}")
+    if not (package_root / "__main__.py").is_file():
+        main_module_path = package_root / "__main__.py"
+        raise ValueError(
+            f"Configured app_package is missing __main__.py: {main_module_path}"
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     report_path.parent.mkdir(parents=True, exist_ok=True)
@@ -137,6 +152,8 @@ def build_command(
         "nuitka",
         f"--mode={config.mode}",
         "--python-flag=-m",
+        "--assume-yes-for-downloads",
+        f"--main={package_root}",
         f"--output-dir={output_dir}",
         f"--report={report_path}",
         f"--output-filename={config.output_name}",
@@ -147,7 +164,6 @@ def build_command(
             for item in config.include_data_files
         ],
         *extra_args,
-        config.app_package,
     ]
 
     if config.include_qt_plugins:
