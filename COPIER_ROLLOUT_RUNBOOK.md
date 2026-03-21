@@ -22,6 +22,7 @@ This runbook defines how to propagate `_py_template` updates to sibling projects
    - `git checkout -b chore/template-sync-<date>`
 3. Apply template update:
    - `uvx copier update --trust --defaults --vcs-ref <TEMPLATE_TAG_OR_SHA>`
+   - keep `.copier-answers.yml` `_src_path` on `../_py_template` so updates work from the repo root without committing absolute paths
 4. Resolve conflicts with template-first rules:
    - keep repo-specific logic,
    - accept template updates for shared scaffolding/policy files.

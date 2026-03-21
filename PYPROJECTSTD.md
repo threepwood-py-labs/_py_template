@@ -243,6 +243,9 @@ uvx copier copy --trust --force --vcs-ref <TEMPLATE_TAG> <PATH_TO_PY_TEMPLATE> <
 # Update an already templated repo (run from target repo root)
 uvx copier update --trust --defaults --vcs-ref <TEMPLATE_TAG>
 
+# For sibling repos in this workspace, keep _src_path relative:
+# ../_py_template
+
 RULES TO ENFORCE
 1. Commit uv.lock and .copier-answers.yml.
 2. Keep exactly one package directory under src/.
@@ -305,3 +308,5 @@ VALIDATION CHECKLIST
 | Build | `hatch build` |
 | Refresh lock | `uv lock --upgrade` |
 | Update from template | `uvx copier update --trust --defaults --vcs-ref <tag>` |
+
+For sibling repos in this workspace, run the update from the target repo root and keep `_src_path: "../_py_template"` in `.copier-answers.yml` so no absolute local path is committed.

@@ -30,6 +30,10 @@ Update an existing templated project:
 uvx copier update --trust --defaults --vcs-ref <TEMPLATE_TAG>
 ```
 
+For sibling repos inside this workspace, keep `.copier-answers.yml` on the
+relative template path `../_py_template` and run `copier update` from the target
+repo root. Do not commit absolute local template paths.
+
 ## Notes
 
 - `_py_template` is the template source repository.
