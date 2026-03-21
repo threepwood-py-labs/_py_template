@@ -1,12 +1,12 @@
 # Copier Rollout Runbook
 
-This runbook defines how to propagate `aatemplate` updates to sibling projects in
+This runbook defines how to propagate `_py_template` updates to sibling projects in
 `c:\prj\p2p\ongithub` after template changes are validated.
 
 ## Preconditions
 
-1. `aatemplate` branch is clean and all template checks pass.
-2. A fresh project render from `aatemplate` passes:
+1. `_py_template` branch is clean and all template checks pass.
+2. A fresh project render from `_py_template` passes:
    - `python -m <package>`
    - `hatch run lint:policy`
    - `hatch run test`

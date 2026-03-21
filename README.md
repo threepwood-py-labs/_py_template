@@ -1,4 +1,4 @@
-# aatemplate
+# _py_template
 
 Copier template source for the Python project standard used in this workspace.
 
@@ -21,7 +21,7 @@ This template has also been a learning process for me, and it keeps improving as
 Apply template to a project:
 
 ```powershell
-uvx copier copy --trust --force --vcs-ref <TEMPLATE_TAG> <PATH_TO_AATEMPLATE> <PATH_TO_PROJECT> --data-file <PROJECT_DATA_YAML>
+uvx copier copy --trust --force --vcs-ref <TEMPLATE_TAG> <PATH_TO_PY_TEMPLATE> <PATH_TO_PROJECT> --data-file <PROJECT_DATA_YAML>
 ```
 
 Update an existing templated project:
@@ -32,6 +32,6 @@ uvx copier update --trust --defaults --vcs-ref <TEMPLATE_TAG>
 
 ## Notes
 
-- `aatemplate` is the template source repository.
+- `_py_template` is the template source repository.
 - Sibling repositories under this directory are template targets.
 - Rollout procedure: [`COPIER_ROLLOUT_RUNBOOK.md`](COPIER_ROLLOUT_RUNBOOK.md).

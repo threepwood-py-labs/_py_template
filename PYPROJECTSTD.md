@@ -203,11 +203,11 @@ FILE REQUIREMENTS
      <!-- legal-disclaimer:start -->
      <!-- legal-disclaimer:end -->
    - content between markers must match canonical text in:
-     aatemplate/legal_disclaimer.md
+     _py_template/legal_disclaimer.md
 
 COPIER TEMPLATE CONTRACT
-- Template source repo directory in this workspace: aatemplate
-- In this workspace, sibling repos are Copier-managed targets and must be updated from aatemplate (not treated as template source).
+- Template source repo directory in this workspace: _py_template
+- In this workspace, sibling repos are Copier-managed targets and must be updated from _py_template (not treated as template source).
 - copier.yml must include:
   - _answers_file: .copier-answers.yml
   - _subdirectory: template
@@ -238,7 +238,7 @@ hatch run lint:all
 
 COPIER ROLLOUT COMMANDS (PowerShell)
 # Apply template to a repo (initial migration)
-uvx copier copy --trust --force --vcs-ref <TEMPLATE_TAG> <PATH_TO_AATEMPLATE> <PATH_TO_PROJECT> --data-file <PROJECT_DATA_YAML>
+uvx copier copy --trust --force --vcs-ref <TEMPLATE_TAG> <PATH_TO_PY_TEMPLATE> <PATH_TO_PROJECT> --data-file <PROJECT_DATA_YAML>
 
 # Update an already templated repo (run from target repo root)
 uvx copier update --trust --defaults --vcs-ref <TEMPLATE_TAG>
@@ -268,7 +268,7 @@ RULES TO ENFORCE
     - overrides: `CONFIG_DIR`, `DATA_DIR`; CLI flags where parser already exists
     - precedence: CLI > env > default
 18. Enforce policy checks via scripts/policy/check_standard.py in CI and pre-commit.
-19. Enforce README legal disclaimer markers and exact canonical content from aatemplate/legal_disclaimer.md.
+19. Enforce README legal disclaimer markers and exact canonical content from _py_template/legal_disclaimer.md.
 20. Do not reintroduce deprecated template ignore entries: w_ignore_prompt*.txt and .everything_sdk/.
 21. Keep oversized class/function checks as warning-level architecture guidance (non-blocking).
 
