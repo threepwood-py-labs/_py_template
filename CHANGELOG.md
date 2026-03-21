@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.5 - 2026-03-21
+- Bumped generated `threep-commons` qt-app dependency pins from `v0.3.0` to `v0.3.1`.
+- Fixed generated Windows packaging helper formatting so fresh renders stay Ruff-clean.
+
 ## v1.7.4 - 2026-03-13
 - Fixed generated Windows helper scripts to satisfy Ruff line-length checks in fresh renders.
 - Restored generated `.copier-answers.yml` output so policy checks can infer `project_kind` correctly.

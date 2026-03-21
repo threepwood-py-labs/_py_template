@@ -18,7 +18,7 @@ classifiers = [
 ]
 dependencies = [
 {% if project_kind == "qt_app" %}
-  "threep-commons @ git+https://github.com/Threepwood-7/threep-commons@v0.3.0",
+  "threep-commons @ git+https://github.com/Threepwood-7/threep-commons@v0.3.1",
 {% endif %}
 {% for dep in runtime_dependencies %}
   "{{ dep }}",
