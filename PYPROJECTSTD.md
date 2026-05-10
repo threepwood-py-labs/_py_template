@@ -221,7 +221,7 @@ COPIER TEMPLATE CONTRACT
 - Copier defaults:
   - author_name: MT0z
   - author_email: mt0z1@pir0z.yxz
-  - github_username: Threepwood-7
+  - github_username: threepwood-py-labs
   - project_version: 0.1.0
   - runtime_dependencies: []
 

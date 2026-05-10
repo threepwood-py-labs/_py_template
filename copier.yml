@@ -42,7 +42,7 @@ author_email:
 github_username:
   type: str
   help: GitHub username
-  default: "Threepwood-7"
+  default: "threepwood-py-labs"
 
 project_version:
   type: str
