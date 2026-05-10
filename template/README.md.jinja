@@ -94,6 +94,11 @@ from {{ package_name }} import __version__
 {{ project_name }}/
 |-- pyproject.toml
 |-- uv.lock
+|-- LICENSE
+|-- docs/
+|   |-- CHANGELOG.md
+|   `-- architecture/
+|       `-- qt_composition_playbook.md
 |-- src/
 |   `-- {{ package_name }}/
 |       |-- __init__.py
@@ -107,6 +112,7 @@ from {{ package_name }} import __version__
 |   |   `-- check_standard.py
 |   `-- windows/
 |       |-- build_nuitka.py
+|       |-- package_release.py
 {% if project_kind == "qt_app" %}
 |       |-- run_app.py
 |       |-- run_app_gui.pyw

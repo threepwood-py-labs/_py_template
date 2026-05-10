@@ -5,7 +5,11 @@ _tasks:
   - command: ["uv", "lock"]
     when: "{{ _copier_operation in ['copy', 'update'] }}"
 _skip_if_exists:
+  - .github/workflows/release.yml
+  - LICENSE
   - README.md
+  - docs/CHANGELOG.md
+  - scripts/windows/package_release.py
   - src/*/__init__.py
   - src/*/__main__.py
 _exclude:
