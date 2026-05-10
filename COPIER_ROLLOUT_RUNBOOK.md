@@ -1,7 +1,7 @@
 # Copier Rollout Runbook
 
 This runbook defines how to propagate `_py_template` updates to sibling projects in
-`c:\prj\p2p\ongithub` after template changes are validated.
+the current workspace after template changes are validated.
 
 ## Preconditions
 
