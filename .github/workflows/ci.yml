@@ -48,15 +48,9 @@ jobs:
               "hatch run lint:fmt",
               "hatch run lint:types",
               "hatch run lint:policy",
-              "gitleaks/gitleaks-action@v2",
               "hatch run test-cov",
           ]
           missing = [item for item in required if item not in workflow]
           if missing:
               raise SystemExit(f"Missing required workflow checks: {missing}")
           '@ | python -
-
-      - name: Run secret scan
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

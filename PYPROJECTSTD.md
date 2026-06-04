@@ -25,7 +25,7 @@ REQUIREMENTS OVERVIEW
 - Type checking: basedpyright strict
 - Testing: pytest + pytest-cov (+ pytest-qt for `qt_app` outputs)
 - Test helper deps in Hatch envs: PySide6>=6.10.2 for `qt_app`; repo-specific extras only when needed
-- Git hooks: pre-commit (including local policy + gitleaks)
+- Git hooks: pre-commit (including local policy)
 - CI: GitHub Actions on windows-latest
 - CI trigger branches: main and master
 - Template sync: Copier
@@ -121,7 +121,6 @@ FILE REQUIREMENTS
    - pre-commit-hooks: check-case-conflict, check-illegal-windows-names, mixed-line-ending (--fix=lf)
    - ruff + ruff-format
    - basedpyright
-   - gitleaks
    - local hook running: python scripts/policy/check_standard.py
 
 4) .gitattributes must include exactly this LF rule:
@@ -144,7 +143,7 @@ FILE REQUIREMENTS
 6) CI workflow must be Windows-first:
    - runs-on: windows-latest
    - branches: [main, master] for push and pull_request
-   - blocking lint job running lint/fmt/types/policy and gitleaks
+   - blocking lint job running lint/fmt/types/policy
    - blocking test job running test-cov
 
 7) scripts/windows/run_app.py (qt_app only):

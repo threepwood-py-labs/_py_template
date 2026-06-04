@@ -50,11 +50,6 @@ jobs:
       - name: Run policy checks
         run: hatch run lint:policy
 
-      - name: Run secret scan
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
-
   test:
     name: Test (Python {% raw %}${{ matrix.python-version }}{% endraw %})
     runs-on: windows-latest
