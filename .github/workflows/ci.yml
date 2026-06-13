@@ -59,7 +59,7 @@ jobs:
               "scripts/windows/package_onefile.py",
               "scripts/windows/write_release_checksums.py",
               "scripts/windows/verify_release_assets.py",
-              ".github/scripts/smoke_launch.ps1",
+              "scripts/windows/smoke_launch.py",
           ]
           missing = [item for item in ci_required if item not in ci_workflow]
           missing += [item for item in release_required if item not in release_workflow]
