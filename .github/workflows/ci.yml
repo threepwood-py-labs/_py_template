@@ -42,15 +42,27 @@ jobs:
           @'
           from pathlib import Path
 
-          workflow = Path(".tmp_template_ci/.github/workflows/ci.yml").read_text(encoding="utf-8")
-          required = [
+          workflows_dir = Path(".tmp_template_ci/.github/workflows")
+          ci_workflow = (workflows_dir / "ci.yml").read_text(encoding="utf-8")
+          ci_required = [
               "hatch run lint:check",
               "hatch run lint:fmt",
               "hatch run lint:types",
               "hatch run lint:policy",
-              "hatch run test-cov",
+              "hatch run coverage report --fail-under",
           ]
-          missing = [item for item in required if item not in workflow]
+          release_workflow = (workflows_dir / "release.yml").read_text(encoding="utf-8")
+          release_required = [
+              "scripts/windows/build_nuitka.py",
+              "scripts/windows/package_release.py",
+              "scripts/windows/build_onefile.py",
+              "scripts/windows/package_onefile.py",
+              "scripts/windows/write_release_checksums.py",
+              "scripts/windows/verify_release_assets.py",
+              ".github/scripts/smoke_launch.ps1",
+          ]
+          missing = [item for item in ci_required if item not in ci_workflow]
+          missing += [item for item in release_required if item not in release_workflow]
           if missing:
               raise SystemExit(f"Missing required workflow checks: {missing}")
           '@ | python -

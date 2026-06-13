@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag to publish, such as v0.1.1
+        required: true
+        default: v0.1.1
+      release_name:
+        description: Display name for the GitHub Release
+        required: true
+        default: {{ project_name }} v0.1.1
+      draft_release:
+        description: Create the GitHub Release as a draft
+        required: true
+        default: true
+        type: boolean
+
+concurrency:
+  group: {% raw %}${{ github.workflow }}-${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref }}{% endraw %}
+  cancel-in-progress: false
+
+env:
+  APP_DISPLAY_NAME: {{ project_name }}
+{% raw %}
+jobs:
+  publish-release:
+    name: Publish Tag-Only Release
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Resolve release metadata
+        id: resolve
+        shell: pwsh
+        run: |
+          $releaseTag = "${{ github.ref_name }}"
+          $releaseName = "${{ env.APP_DISPLAY_NAME }} $releaseTag"
+          $draftRelease = "false"
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+              $releaseTag = "${{ inputs.release_tag }}"
+              $releaseName = "${{ inputs.release_name }}"
+              $draftRelease = "${{ inputs.draft_release }}".ToLowerInvariant()
+          }
+          if ($releaseTag -notmatch '^v\d+\.\d+\.\d+$') {
+              throw "Release tag '$releaseTag' must match vMAJOR.MINOR.PATCH."
+          }
+          "release_tag=$releaseTag" >> $env:GITHUB_OUTPUT
+          "release_name=$releaseName" >> $env:GITHUB_OUTPUT
+          "draft_release=$draftRelease" >> $env:GITHUB_OUTPUT
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+
+      - name: Validate release tag matches project version
+        shell: pwsh
+        run: |
+          @'
+          from __future__ import annotations
+
+          import sys
+          import tomllib
+          from pathlib import Path
+
+          release_tag = sys.argv[1]
+          pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+          version = str(pyproject["project"]["version"])
+          expected_tag = f"v{version}"
+          if release_tag != expected_tag:
+              raise SystemExit(
+                  f"Release tag {release_tag!r} does not match project version "
+                  f"{version!r}; expected {expected_tag!r}."
+              )
+          '@ | python - "${{ steps.resolve.outputs.release_tag }}"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.resolve.outputs.release_tag }}
+          name: ${{ steps.resolve.outputs.release_name }}
+          draft: ${{ steps.resolve.outputs.draft_release == 'true' }}
+          generate_release_notes: true
+{% endraw %}
