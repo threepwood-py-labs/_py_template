@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || github.ref_name }}
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Resolve release metadata
@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ needs.release-metadata.outputs.release_tag }}
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Install uv
@@ -166,7 +166,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ needs.release-metadata.outputs.release_tag }}
+          ref: ${{ github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -232,7 +232,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ needs.release-metadata.outputs.release_tag }}
+          ref: ${{ github.ref_name }}
 
       - name: Set up Python
         uses: actions/setup-python@v6
